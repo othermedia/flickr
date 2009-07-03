@@ -12,10 +12,13 @@ packages:
   flickr:
     files:
       - flickr
+      - photo
       - jsonp
     meta:
       provides:
         - Flickr
+        - Flickr.Client
+        - Flickr.JSONP
       requires:
         - JS.Class
 
