@@ -2,6 +2,7 @@
 source_directory:     src
 build_directory:      .
 layout:               together
+header:               header
 builds:
   min:
     shrink_vars:      true
