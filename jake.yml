@@ -1,0 +1,21 @@
+---
+source_directory:     src
+build_directory:      .
+layout:               together
+builds:
+  min:
+    shrink_vars:      true
+    private:          true
+
+packages:
+
+  flickr:
+    files:
+      - flickr
+      - jsonp
+    meta:
+      provides:
+        - Flickr
+      requires:
+        - JS.Class
+
