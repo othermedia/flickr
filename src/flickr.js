@@ -14,6 +14,7 @@ Flickr = {
     },
     
     feed: function(path, params, callback, scope) {
+      path = /\.gne$/.test(path) ? path : path + '.gne';
       Flickr.JSONP.request(Flickr.FEED_ENDPOINT + path, params, callback, scope);
     },
     
@@ -26,20 +27,36 @@ Flickr = {
     },
     
     groupDiscuss: function(id, callback, scope) {
-      this.feed('groups_discuss.gne', {id: id}, callback, scope);
+      this.feed('groups_discuss', {id: id}, callback, scope);
     },
     
     groupPool: function(id, callback, scope) {
-      this.feed('groups_pool.gne', {id: id}, callback, scope);
+      this.feed('groups_pool', {id: id}, callback, scope);
+    },
+    
+    photoFavourites: function(id, callback, scope) {
+      this.feed('photos_faves', {id: id}, callback, scope);
     },
     
     getGroupPhotos: function(id, callback, scope) {
+      var wrap = this._wrapPhotos;
       this.groupPool(id, function(data) {
-        var photos = [];
-        for (var i = 0, n = data.items.length; i < n; i++)
-          photos.push(new Flickr.Photo(data.items[i]));
-        callback.call(scope, photos);
+        callback.call(scope, wrap(data));
       });
+    },
+    
+    getFavourites: function(id, callback, scope) {
+      var wrap = this._wrapPhotos;
+      this.photoFavourites(id, function(data) {
+        callback.call(scope, wrap(data));
+      });
+    },
+    
+    _wrapPhotos: function(data) {
+      var photos = [];
+      for (var i = 0, n = data.items.length; i < n; i++)
+        photos.push(new Flickr.Photo(data.items[i]));
+      return photos;
     }
   }),
   
