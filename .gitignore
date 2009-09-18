@@ -1,1 +1,4 @@
-*-min.js
+build
+test/lib
+test/packages.js
+
