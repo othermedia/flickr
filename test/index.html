@@ -24,7 +24,9 @@
     require('Flickr', function() {
         
         Client = new Flickr.Client('63bb4efae64c3c04510c484dcdaef263');
-        window.console && console.log(Client);
+        Client.getGroupPhotos('52240328087@N01', function(r) {
+            window.console && console.log(r[0].getTitle());
+        });
     });
     </script>
     
