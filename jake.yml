@@ -22,4 +22,3 @@ packages:
         - JS.Class
       provides:
         - Flickr
-

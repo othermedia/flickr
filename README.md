@@ -21,4 +21,3 @@ The client provides convenience methods for calling various feeds, for example:
     });
 
 See the `Flickr.Client` and `Flickr.Photo` classes for more information.
-
