@@ -11,6 +11,24 @@ Flickr.Photo = new JS.Class({
   },
   
   /**
+   * Flickr.Photo#constructURI(size) -> String
+   * - size (String)
+   **/
+  constructImageURI: function(size) {
+    var data = this._data;
+    size = size || 't';
+    return 'http://farm' + data.farm + '.static.flickr.com/' + data.server +
+      '/' + data.id + '_' + data.secret + '_' + size + '.jpg';
+  },
+  
+  /**
+   * Flickr.Photo#getId() -> String
+   **/
+  getId: function() {
+    return this._data.id;
+  },
+  
+  /**
    * Flickr.Photo#getTags() -> Array
    **/
   getTags: function() {
@@ -22,7 +40,16 @@ Flickr.Photo = new JS.Class({
    * Flickr.Photo#getThumbnail() -> String
    **/
   getThumbnail: function() {
-    return this._data.media.m;
+    var media = this._data.media;
+    return media && media.m ? media.m : this.constructImageURI('t');
+  },
+  
+  /**
+   * Flickr.Photo#getLink() -> String
+   **/
+  getLink: function() {
+    return this._data.link || 'http://www.flickr.com/photos/' +
+      this.getAuthorId() + '/' + this.getId();
   },
   
   /**
@@ -32,6 +59,9 @@ Flickr.Photo = new JS.Class({
   /**
    * Flickr.Photo#getAuthorId() -> String
    **/
+  getAuthorId: function() {
+    return this._data.author_id || this._data.owner;
+  },
   
   /**
    * Flickr.Photo#getDateTaken() -> String
@@ -39,10 +69,6 @@ Flickr.Photo = new JS.Class({
   
   /**
    * Flickr.Photo#getDescription() -> String
-   **/
-  
-  /**
-   * Flickr.Photo#getLink() -> String
    **/
   
   /**
@@ -56,10 +82,8 @@ Flickr.Photo = new JS.Class({
   extend: {
     METHOD_MAPPINGS: {
       Author:       'author',
-      AuthorId:     'author_id',
       DateTaken:    'date_taken',
       Description:  'description',
-      Link:         'link',
       Published:    'published',
       Title:        'title'
     }
