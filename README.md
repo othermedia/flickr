@@ -5,7 +5,6 @@ A simple wrapper around the [Flickr JSONP API][flickrapi]. No scripts from
 Flickr are required in advance since they provide a raw JSONP service; it is up
 to clients how they want to consume it.
 
-[flickrapi]: http://www.flickr.com/services/api/response.json.html
 
 Usage
 -----
@@ -27,7 +26,7 @@ See the `Flickr.Client` and `Flickr.Photo` classes for more information.
 API
 ---
 
-### `Flickr.Client`
+### `Flickr.Client` class
 
 Instances of the `Flickr.Client` class have the following methods available.
 They all have two required arguments: an `id` value and a `callback`. They
@@ -41,6 +40,10 @@ convenient API (detailed below).
 
 * `getGroupPhotos` calls the callback function with the group's photos.
 * `getFavourites` calls the callback with the group's favourite photos.
+* `getPublicPhotos` calls the callback with a user's public photos.
+* `getPhotosOf` calls the callback with a photos of a user.
+* `getUserId` takes a Flickr username in place of an ID, and calls the callback
+  with the user's ID value.
 
 #### Unwrapped methods
 
@@ -49,12 +52,16 @@ convenient API (detailed below).
 * `groupDiscuss` calls the callback with recent discussion from that group.
 * `groupPool` is the unwrapped version of `getGroupPhotos`.
 * `photoFavourites` is the unwrapped version of `getFavourites`.
+* `publicPhotos` is the unwrapped version of `getPublicPhotos`.
+* `photosOf` is the unwrapped version of `getPhotosOf`.
+* `findByUsername` is the unwrapped version of `getUserId`.
 
-### `Flickr.Photo`
+### `Flickr.Photo` class
 
 Instances of the `Flickr.Photo` class have the following methods available.
 They have no parameters and return strings, except where noted.
 
+* `getId` returns the ID of the photo.
 * `getTags` returns the tags for that photo as an array.
 * `getThumbnail` returns the location of the photo's thumbnail.
 * `getAuthor` returns the name of the photo's author.
@@ -64,3 +71,8 @@ They have no parameters and return strings, except where noted.
 * `getLink` returns the link to the photo page.
 * `getPublished` returns the date the photo was published.
 * `getTitle` returns the title of the photo.
+* `constructImageURI` accepts an image size, as detailed in the
+  [Flickr URI documentation][flickruris].
+
+[flickrapi]:  http://www.flickr.com/services/api/response.json.html
+[flickruris]: http://www.flickr.com/services/api/misc.urls.html
