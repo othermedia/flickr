@@ -41,7 +41,7 @@ Flickr.Photo = new JS.Class({
    **/
   getThumbnail: function() {
     var media = this._data.media;
-    return media && media.m ? media.m : this.constructImageURI('t');
+    return media && media.m ? media.m : this.constructImageURI('m');
   },
   
   /**
