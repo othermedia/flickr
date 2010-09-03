@@ -3,17 +3,41 @@
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Flickr Tests</title>
     
+    <style type="text/css">
+        #gallery img {
+            display:block;
+        }
+    </style>
+    
     <script src="http://js.othermedia.com/helium.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        Helium.use('yui', '2.8.0r4');
+        Helium.use('ojay', '0.4.2');
+    </script>
     <script src="./packages.js" type="text/javascript"></script>
 </head><body>
     
+    <h1>Some photos from Flickr</h1>
+    
+    <ul id="gallery"></ul>
+    
     <script type="text/javascript">
-        require('Flickr', function() {
+        require('Flickr', 'Ojay', function() {
+            var gallery = Ojay.byId('gallery');
             
             Client = new Flickr.Client('63bb4efae64c3c04510c484dcdaef263');
             
             Client.getGroupPhotos('52240328087@N01', function(r) {
-                window.console && console.log(r[0].getTitle());
+                r.forEach(function(photo) {
+                    var title = photo.getTitle(), link, li;
+                    
+                    if (title) {
+                        link = Ojay.HTML.a({href: photo.getLink()}, photo.getTitle()),
+                        li   = Ojay.HTML.li(link);
+                        
+                        gallery.insert(li, 'bottom');
+                    }
+                });
             });
         });
     </script>
