@@ -25,18 +25,28 @@
         require('Flickr', 'Ojay', function() {
             var gallery = Ojay.byId('gallery');
             
-            Client = new Flickr.Client('63bb4efae64c3c04510c484dcdaef263');
-            
-            Client.getGroupPhotos('52240328087@N01', function(r) {
-                r.forEach(function(photo) {
+            function addPhotosToList(photos) {
+                photos.forEach(function(photo) {
                     var title = photo.getTitle(), link, li;
                     
                     if (title) {
-                        link = Ojay.HTML.a({href: photo.getLink()}, photo.getTitle()),
+                        link = Ojay.HTML.a({href: photo.getLink()}, photo.getTitle());
                         li   = Ojay.HTML.li(link);
                         
                         gallery.insert(li, 'bottom');
                     }
+                });
+            }
+            
+            Client = new Flickr.Client('63bb4efae64c3c04510c484dcdaef263');
+            
+            Client.getGroupPhotos('52240328087@N01', function(photos) {
+                addPhotosToList(photos);
+            });
+            
+            Client.getUserId('thatguyeric', function(id) {
+                Client.getPublicPhotos(id, function(photos) {
+                    addPhotosToList(photos);
                 });
             });
         });

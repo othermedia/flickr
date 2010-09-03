@@ -1,5 +1,7 @@
 Version 1.2.0, 2010.09.03
 
+* Extended the Flickr.Client class API with findByUsername, getUserId,
+  publicPhotos, getPublicPhotos, photosOf and getPhotosOf methods.
 * Added constructImageURI, getId, getAuthorId and getLink methods to
   Flickr.Photo class so that more information can be inferred even when it's
   not present in a fully-constructed form in the response from the server.

@@ -57,6 +57,79 @@ Flickr = {
     },
     
     /**
+     * Flickr.Client#findByUsername(username, callback, scope) -> undefined
+     * - username (String)
+     * - callback (Function)
+     * - scope (Object)
+     **/
+    findByUsername: function(username, callback, scope) {
+      this.call('people.findByUsername', {username: username}, callback, scope);
+    },
+    
+    /**
+     * Flickr.Client#getUserId(username, callback, scope) -> undefined
+     * - username (String)
+     * - callback (Function)
+     * - scope (Object)
+     **/
+    getUserId: function(username, callback, scope) {
+      this.findByUsername(username, function(data) {
+        callback.call(scope, data.user.id);
+      });
+    },
+    
+    /**
+     * Flickr.Client#publicPhotos(id, callback, scope) -> undefined
+     * - id (String)
+     * - callback (Function)
+     * - scope (Object)
+     **/
+    publicPhotos: function(id, callback, scope) {
+      var extras = ['media', 'description', 'o_url'].join(',');
+      this.call('people.getPublicPhotos', {user_id: id, extras: extras}, callback, scope);
+    },
+    
+    /**
+     * Flickr.Client#getPublicPhotos(id, callback, scope) -> undefined
+     * - id (String)
+     * - callback (Function)
+     * - scope (Object)
+     *
+     * Feed items are wrapped as `Flickr.Photo` objects.
+     **/
+    getPublicPhotos: function(id, callback, scope) {
+      var wrap = this._wrapPhotos;
+      this.publicPhotos(id, function(data) {
+        callback.call(scope, wrap(data.photos, 'photo'));
+      });
+    },
+    
+    /**
+     * Flickr.Client#photosOf(id, callback, scope) -> undefined
+     * - id (String)
+     * - callback (Function)
+     * - scope (Object)
+     **/
+    photosOf: function(id, callback, scope) {
+      this.call('people.getPhotosOf', {user_id: id}, callback, scope);
+    },
+    
+    /**
+     * Flickr.Client#photosOf(id, callback, scope) -> undefined
+     * - id (String)
+     * - callback (Function)
+     * - scope (Object)
+     *
+     * Feed items are wrapped as `Flickr.Photo` objects.
+     **/
+    getPhotosOf: function(id, callback, scope) {
+      var wrap = this._wrapPhotos;
+      this.photosOf(id, function(data) {
+        callback.call(scope, wrap(data.photos, 'photo'));
+      });
+    },
+    
+    /**
      * Flickr.Client#groupBrowse(id, callback, scope) -> undefined
      * - id (String)
      * - callback (Function)
@@ -143,10 +216,11 @@ Flickr = {
      * Takes a list of feed items from the Flickr API and wraps them up as
      * instances of `Flickr.Photo`.
      **/
-    _wrapPhotos: function(data) {
+    _wrapPhotos: function(data, name) {
+      name = name || 'items';
       var photos = [];
-      for (var i = 0, n = data.items.length; i < n; i++)
-        photos.push(new Flickr.Photo(data.items[i]));
+      for (var i = 0, n = data[name].length; i < n; i++)
+        photos.push(new Flickr.Photo(data[name][i]));
       return photos;
     }
   }),
