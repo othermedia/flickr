@@ -57,6 +57,40 @@ Flickr = {
     },
     
     /**
+     * Flickr.Client#search(text, callback, scope) -> undefined
+     * - text (String)
+     * - params (Object)
+     * - callback (Function)
+     * - scope (Object)
+     *
+     * Searches Flickr for photos matching the given string. The search can be
+     * customised by passing in additional parameters via the `params` object;
+     * for documentation of allowed parameters please refer to the Flickr API:
+     * http://www.flickr.com/services/api/flickr.photos.search.html
+     **/
+    search: function(text, params, callback, scope) {
+      params = params || {};
+      params.text = text;
+      this.call('photos.search', params, callback, scope);
+    },
+    
+    /**
+     * Flickr.Client#getSearch(text, callback, scope) -> undefined
+     * - text (String)
+     * - callback (Function)
+     * - scope (Object)
+     *
+     * Searches Flickr for photos matching the given string. Result items are
+     * wrapped as `Flickr.Photo` objects.
+     **/
+    getSearch: function(text, callback, scope) {
+      var wrap = this._wrapPhotos;
+      this.search(text, {}, function(data) {
+        callback.call(scope, wrap(data.photos, 'photo'));
+      });
+    },
+    
+    /**
      * Flickr.Client#findByUsername(username, callback, scope) -> undefined
      * - username (String)
      * - callback (Function)
@@ -229,4 +263,3 @@ Flickr = {
   REST_ENDPOINT:  'http://api.flickr.com/services/rest/',
   FEED_ENDPOINT:  'http://api.flickr.com/services/feeds/'
 };
-

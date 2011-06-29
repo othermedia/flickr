@@ -1,3 +1,8 @@
+Version 1.3.0, 2011.06.29
+
+* Added search and getSearch methods to the Flickr.Client class, wrapping the
+  search method of Flickr's API.
+
 Version 1.2.0, 2010.09.03
 
 * Extended the Flickr.Client class API with findByUsername, getUserId,

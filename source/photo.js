@@ -99,4 +99,3 @@ Flickr.Photo = new JS.Class({
     });
   })(key, map[key]);
 })();
-

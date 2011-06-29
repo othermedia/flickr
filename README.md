@@ -56,6 +56,17 @@ convenient API (detailed below).
 * `photosOf` is the unwrapped version of `getPhotosOf`.
 * `findByUsername` is the unwrapped version of `getUserId`.
 
+#### Search methods
+
+The search methods deviate slightly from the interface described above. Instead
+of an `id` value, they accept a `text` string which is the search query to be
+run. The `search` method also takes a `params` object before the `callback`
+parameter, which allows further search options to be set.
+
+* `search` calls the callback with a list of photos from the search.
+* `getSearch` is the wrapped version of `search`, and does not accept a
+  `params` object, just a search string, callback and optional scope argument.
+
 ### `Flickr.Photo` class
 
 Instances of the `Flickr.Photo` class have the following methods available.
